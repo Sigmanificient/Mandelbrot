@@ -56,7 +56,7 @@ class App:
             Filter(lambda: True, lambda i, n: ((c := math.sqrt((i / n)) * 255) // 2, c // 2, c))
         ]
 
-        if len(filters) > 10:
+        if len(self.filters) > 10:
             print("Warning: Too many filters, all filters that have an index >10, will not be able to be applied")
 
         self.active_filters = [0]

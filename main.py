@@ -21,13 +21,24 @@ class App:
 
     def __init__(self):
         self.is_running = True
+        self.show_progress_bar = True
+
+    def handle_event(self, event):
+        if event.type == pygame.QUIT:
+            self.is_running = False
+            return
+
+        if event.type != pygame.KEYDOWN:
+            return
+
+        if event.key == pygame.K_SPACE:
+            self.show_progress_bar = not self.show_progress_bar
 
     def run(self):
         while self.is_running:
 
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.is_running = False
+                self.handle_event(event)
 
             pygame.display.set_caption(f"Mandelbrot | {clock.get_fps():,.0f} fps")
             pygame.display.update()

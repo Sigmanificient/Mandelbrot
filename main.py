@@ -50,7 +50,7 @@ class App:
         self.is_running = True
         self.show_progress_bar = True
         self.filters = [
-            Filter(lambda i, n: (i / n) % 2, default_filter, True),
+            Filter(lambda i, n: (i / n) % 2, default_filter),
             # Add your filters here !
 
             Filter(lambda: True, lambda i, n: ((c := math.sqrt((i / n)) * 255) // 2, c // 2, c))

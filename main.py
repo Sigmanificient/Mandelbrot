@@ -8,6 +8,7 @@ from numba import njit
 
 win_size_x = 1024
 win_size_y = 710
+RED = (255, 0, 0)
 
 pygame.init()
 
@@ -70,20 +71,20 @@ class App:
 
     def run(self):
         mandelbrot_points = get_points(100)
+        x, y = 0, 0
 
         while self.is_running:
-
             for event in pygame.event.get():
                 self.handle_event(event)
 
             for y in range(win_size_y):
                 x, i, n, z = next(mandelbrot_points)
-                gfxdraw.pixel(screen, x, y, (25, 0, 0))
+                gfxdraw.pixel(screen, x, y, get_color(i, n, z))
 
-                if self.show_progress_bar:
-                    gfxdraw.line(screen, x + 1, 0, x + 1, win_size_y, (255, 0, 0))
+            if self.show_progress_bar:
+                gfxdraw.line(screen, x + 1, 0, x + 1, win_size_y, RED)
 
-            pygame.display.set_caption(f"Mandelbrot | {clock.get_fps():,.0f} fps")
+            pygame.display.set_caption(f"Mandelbrot - {((x * y) / (win_size_x * win_size_y)) * 100:0>2.0f}% done")
             pygame.display.update()
             clock.tick(-1)
 
@@ -98,6 +99,7 @@ def get_points(n):
                     3.5 * x / (win_size_x - 1) - 2.5,
                     -2.5 * y / (win_size_y - 1) + 1.25
                 )
+
                 i = 0
 
                 while i < n and abs(z) < 2:
@@ -105,6 +107,10 @@ def get_points(n):
                     i += 1
 
                 yield x, i, n, z
+
+
+def get_color(i, n, z):
+    return (25, 0, 0)
 
 
 if __name__ == '__main__':

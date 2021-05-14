@@ -1,6 +1,4 @@
 import inspect
-import math
-import random
 
 import pygame
 from pygame import gfxdraw  # Module not present in pygame default import, why ?
@@ -24,11 +22,14 @@ class Filter:
     def __init__(self, condition, modifier):
         self.condition = condition
         self.modifier = modifier
-        self.active = False
+        self.active = True
 
         self.needed_parameters = {
-            k: inspect.signature(condition).parameters for k in ('condition', 'modifier')
+            'condition': tuple(inspect.signature(condition).parameters.keys()),
+            'modifier': tuple(inspect.signature(modifier).parameters.keys())
         }
+
+        print(self.needed_parameters)
 
     def apply(self, **kwargs):
         if not self.active:
@@ -55,7 +56,7 @@ class App:
         self.show_progress_bar = True
         self.filters = [
             Filter(lambda i, n: (i / n) % 2, lambda i: (i, i, i)),
-            Filter(lambda i, n: (i / n) % 2, lambda: (0, 0, 0))
+            Filter(lambda i, n: (i / n) == 1, lambda: (0, 0, 0)),
         ]
 
     def handle_event(self, event):
@@ -110,7 +111,12 @@ def get_points(n):
 
 
 def get_color(i, n, z):
-    return (25, 0, 0)
+    rgb = [0] * 3
+
+    for _filter in app.filters:
+        rgb = _filter.apply(rgb=rgb, i=i, n=n, z=z)
+
+    return rgb
 
 
 if __name__ == '__main__':

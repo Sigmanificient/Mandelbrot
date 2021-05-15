@@ -75,11 +75,13 @@ class App:
         if event.type != pygame.KEYDOWN:
             return
 
-        elif event.key == pygame.K_f:
+        if event.key == pygame.K_f:
             self.flush = not self.flush
+            return
 
-        elif event.key == pygame.K_SPACE:
+        if event.key == pygame.K_SPACE:
             self.show_progress_bar = not self.show_progress_bar
+            return
 
         if not event.unicode.isdigit():
             return
@@ -124,7 +126,7 @@ class App:
                 gfxdraw.line(screen, x + 1, 0, x + 1, win_size_y, RED)
 
             filter_text = ', '.join(self.filters[filter_index].name for filter_index in self.active_filters)
-            if not len(filter_text):
+            if not filter_text:
                 filter_text = 'none'
 
             progress = ((x * y) / (win_size_x * win_size_y)) * 100

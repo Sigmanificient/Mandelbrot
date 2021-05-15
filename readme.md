@@ -1,6 +1,6 @@
 # Mandelbrot [![CodeFactor](https://www.codefactor.io/repository/github/sigmanificient/mandelbrot/badge)](https://www.codefactor.io/repository/github/sigmanificient/mandelbrot)
 
-<img src="https://github.com/sigmanificient/mandelbrot/blob/master/screenshots/1.png" alt="screenshot" height="50%" width="auto">
+<img src="https://github.com/sigmanificient/mandelbrot/blob/master/screenshots/1.png" alt="screenshot" height="320px" width="auto">
 
 
 A pygame renderer for the mandelbrot well-known fractal.

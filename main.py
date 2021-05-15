@@ -53,6 +53,7 @@ class App:
     def __init__(self):
         self.is_running = True
         self.show_progress_bar = True
+        self.flush = False
 
         self.filters = [
             Filter('default', lambda i, n: (i / n) % 2, default_filter),
@@ -74,20 +75,25 @@ class App:
         if event.type != pygame.KEYDOWN:
             return
 
-        if event.key == pygame.K_SPACE:
+        elif event.key == pygame.K_f:
+            self.flush = not self.flush
+
+        elif event.key == pygame.K_SPACE:
             self.show_progress_bar = not self.show_progress_bar
 
-        if event.unicode.isdigit():
-            key = int(event.unicode)
+        if not event.unicode.isdigit():
+            return
 
-            if len(self.filters) <= key:
-                return
+        key = int(event.unicode)
 
-            if key in self.active_filters:
-                self.active_filters.remove(key)
-                return
+        if len(self.filters) <= key:
+            return
 
-            self.active_filters.append(key)
+        if key in self.active_filters:
+            self.active_filters.remove(key)
+            return
+
+        self.active_filters.append(key)
 
     def get_color(self, i, n, z, x, y):
         rgb = [0] * 3
@@ -100,9 +106,13 @@ class App:
 
     def run(self):
         mandelbrot_points = get_points(100)
+        progress = 0
         x, y = 0, 0
 
         while self.is_running:
+            if self.flush and progress == 0.0:
+                screen.fill(0)
+
             for event in pygame.event.get():
                 self.handle_event(event)
 
@@ -117,9 +127,8 @@ class App:
             if not len(filter_text):
                 filter_text = 'none'
 
-            pygame.display.set_caption(
-                f"Mandelbrot - {((x * y) / (win_size_x * win_size_y)) * 100:0>2.0f}% done - filters: {filter_text}"
-            )
+            progress = ((x * y) / (win_size_x * win_size_y)) * 100
+            pygame.display.set_caption(f"Mandelbrot - {progress:0>2.0f}% done - filters: {filter_text}")
 
             pygame.display.update()
             clock.tick(-1)

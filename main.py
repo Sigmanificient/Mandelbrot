@@ -5,10 +5,13 @@ import pygame
 from pygame import gfxdraw  # Module not present in pygame default import, why ?
 from numba import njit
 
-win_size_x = 1024
-win_size_y = 710
-RED = (255, 0, 0)
+RATIO = .69375
 
+win_size_x = 1280
+win_size_y = int(win_size_x * RATIO)
+
+RED = (255, 0, 0)
+WHITE = (255, 255, 255)
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -20,7 +23,8 @@ pygame.display.set_icon(icon)
 
 class Filter:
 
-    def __init__(self, condition, modifier):
+    def __init__(self, name, condition, modifier):
+        self.name = name
         self.condition = condition
         self.modifier = modifier
 
@@ -49,11 +53,12 @@ class App:
     def __init__(self):
         self.is_running = True
         self.show_progress_bar = True
+
         self.filters = [
-            Filter(lambda i, n: (i / n) % 2, default_filter),
+            Filter('default', lambda i, n: (i / n) % 2, default_filter),
             # Add your filters here !
 
-            Filter(lambda: True, lambda i, n: ((c := math.sqrt((i / n)) * 255) // 2, c // 2, c))
+            Filter('blue', lambda: True, lambda r, g, b: (r, g, (b * 5) % 255))
         ]
 
         if len(self.filters) > 10:
@@ -84,11 +89,12 @@ class App:
 
             self.active_filters.append(key)
 
-    def get_color(self, i, n, z):
+    def get_color(self, i, n, z, x, y):
         rgb = [0] * 3
 
         for filter_index in self.active_filters:
-            rgb = self.filters[filter_index].apply(rgb=rgb, i=i, n=n, z=z)
+            r, g, b = rgb
+            rgb = self.filters[filter_index].apply(rgb=rgb, i=i, n=n, z=z, r=r, g=g, b=b, x=x, y=y)
 
         return rgb
 
@@ -102,12 +108,19 @@ class App:
 
             for y in range(win_size_y):
                 x, i, n, z = next(mandelbrot_points)
-                gfxdraw.pixel(screen, x, y, self.get_color(i, n, z))
+                gfxdraw.pixel(screen, x, y, self.get_color(i, n, z, x, y))
 
             if self.show_progress_bar:
                 gfxdraw.line(screen, x + 1, 0, x + 1, win_size_y, RED)
 
-            pygame.display.set_caption(f"Mandelbrot - {((x * y) / (win_size_x * win_size_y)) * 100:0>2.0f}% done")
+            filter_text = ', '.join(self.filters[filter_index].name for filter_index in self.active_filters)
+            if not len(filter_text):
+                filter_text = 'none'
+
+            pygame.display.set_caption(
+                f"Mandelbrot - {((x * y) / (win_size_x * win_size_y)) * 100:0>2.0f}% done - filters: {filter_text}"
+            )
+
             pygame.display.update()
             clock.tick(-1)
 

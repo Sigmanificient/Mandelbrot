@@ -1,7 +1,7 @@
 # Mandelbrot 
 
 [![CodeFactor](https://www.codefactor.io/repository/github/sigmanificient/mandelbrot/badge)](https://www.codefactor.io/repository/github/sigmanificient/mandelbrot)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Sigmanificient/Sigmanificient/Mandelbrot)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Sigmanificient/Mandelbrot)
 ![GitHub repo size](https://img.shields.io/github/repo-size/Sigmanificient/Mandelbrot)
 ![Lines of code](https://img.shields.io/tokei/lines/github/Sigmanificient/Mandelbrot)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Sigmanificient/Mandelbrot)

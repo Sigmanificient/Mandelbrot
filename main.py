@@ -22,6 +22,7 @@ pygame.display.set_icon(icon)
 class Filter:
 
     def __init__(self, name, condition, modifier):
+        """Initialize a filter can change the render colors"""
         self.name = name
         self.condition = condition
         self.modifier = modifier

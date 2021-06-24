@@ -16,9 +16,9 @@ pygame~=2.0.1
 ```
 
 ## Controls
-  - `f` *toggle* : flush screen for each render
-  - `e` *toggle* : show red progress bar
-  - `0-9`: *toggle* : enable/disable a filter
+* `f` *toggle* : flush screen for each render
+* `e` *toggle* : show red progress bar
+* `0-9`: *toggle* : enable/disable a filter
 
 ### Adding your filter
 You can add your very own filter at line 62, that you'll be able to use.

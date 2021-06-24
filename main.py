@@ -1,6 +1,4 @@
 import inspect
-import math
-
 import pygame
 from pygame import gfxdraw  # Module not present in pygame default import, why ?
 from numba import njit
@@ -51,6 +49,7 @@ class Filter:
 class App:
 
     def __init__(self):
+        """Initialize App Filters."""
         self.is_running = True
         self.show_progress_bar = True
         self.flush = False
@@ -157,7 +156,7 @@ def get_points(n):
 
 
 def default_filter(i, n):
-    i *= not ((i/n) % 2 == 1)
+    i *= (i/n) % 2 != 1
     return i, i, i
 
 

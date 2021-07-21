@@ -1,5 +1,6 @@
-# Mandelbrot 
+# Mandelbrot
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Sigmanificient/Mandelbrot/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Sigmanificient/Mandelbrot/?branch=master)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Sigmanificient/Mandelbrot)
 ![GitHub repo size](https://img.shields.io/github/repo-size/Sigmanificient/Mandelbrot)
 ![Lines of code](https://img.shields.io/tokei/lines/github/Sigmanificient/Mandelbrot)

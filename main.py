@@ -34,14 +34,16 @@ class Filter:
 
     def apply(self, **kwargs):
         cond_args = [
-            kwargs[kwarg] for kwarg in kwargs if kwarg in self.needed_parameters['condition']
+            kwargs[kwarg] for kwarg in kwargs
+            if kwarg in self.needed_parameters['condition']
         ]
 
         if not self.condition(*cond_args):
             return kwargs['rgb']
 
         modifier_args = [
-            kwargs[kwarg] for kwarg in kwargs if kwarg in self.needed_parameters['modifier']
+            kwargs[kwarg] for kwarg in kwargs
+            if kwarg in self.needed_parameters['modifier']
         ]
 
         return self.modifier(*modifier_args)
@@ -63,7 +65,11 @@ class App:
         ]
 
         if len(self.filters) > 10:
-            print("Warning: Too many filters, all filters that have an index >10, will not be able to be applied")
+            print(
+                "Warning: Too many filters, "
+                "all filters that have an index >10, "
+                "will not be able to be applied"
+            )
 
         self.active_filters = [0]
 
@@ -102,7 +108,11 @@ class App:
 
         for filter_index in self.active_filters:
             r, g, b = rgb
-            rgb = self.filters[filter_index].apply(rgb=rgb, i=i, n=n, z=z, r=r, g=g, b=b, x=x, y=y)
+            rgb = (
+                self.filters[filter_index].apply(
+                    rgb=rgb, i=i, n=n, z=z, r=r, g=g, b=b, x=x, y=y
+                )
+            )
 
         return rgb
 
@@ -125,12 +135,18 @@ class App:
             if self.show_progress_bar:
                 gfxdraw.line(screen, x + 1, 0, x + 1, win_size_y, RED)
 
-            filter_text = ', '.join(self.filters[filter_index].name for filter_index in self.active_filters)
+            filter_text = ', '.join(
+                self.filters[filter_index].name
+                for filter_index in self.active_filters
+            )
+
             if not filter_text:
                 filter_text = 'none'
 
             progress = ((x * y) / (win_size_x * win_size_y)) * 100
-            pygame.display.set_caption(f"Mandelbrot - {progress:0>2.0f}% done - filters: {filter_text}")
+            pygame.display.set_caption(
+                f"Mandelbrot - {progress:0>2.0f}% done - filters: {filter_text}"
+            )
 
             pygame.display.update()
             clock.tick(-1)
